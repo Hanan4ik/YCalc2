@@ -2,7 +2,6 @@ import math
 import sys
 import colorama
 from Calculators.Calc import Calc
-import pyreadline
 
 colorama.init()
 print(colorama.Style.BRIGHT, end="")
