@@ -1,16 +1,27 @@
+import math
 import sys
+import colorama
+from Calculators.Calc import Calc
+import pyreadline
 
-from Calculators import Calc
-
+colorama.init()
+print(colorama.Style.BRIGHT, end="")
 print("YCalc2")
+Calcs = [Calc(), Calc()]
+chosen = 0
+cur_calc = Calcs[chosen]
+Calcs[1].calc_name = "calc2"
 
-cur_calc = Calc()
 
 try:
     while True:
-        expression = cur_calc.input()
-        if expression == "chmod":
-            pass
+        for e in test_expressions:
+            expression = cur_calc.input(e)
+            if expression == "chmod":
+                chosen = (chosen+1)%2
+                cur_calc = Calcs[chosen]
+            print(colorama.Fore.CYAN, e, " = ", expression, colorama.Fore.RESET, sep="")
+        break
 except KeyboardInterrupt:
     print("\nExiting")
     sys.exit(0)

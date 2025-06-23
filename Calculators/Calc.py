@@ -7,9 +7,12 @@ class Calc(ICalc):
 
     def __init__(self):
         super().__init__()
+        self.calc_name = "calc"
 
     def input(self, expression):
-        super().input(expression)
+        to_return = super().input(expression)
+        if to_return:
+            return to_return
         self.__format()
         return self.__calculate()
 
@@ -19,6 +22,7 @@ class Calc(ICalc):
         self.expression = self.expression.replace(" ", "")
         self.expression = self.expression.replace("^", "**")
         self.expression = self.expression.replace(")(", ")*(")
+
 
         # Adding multiplication sign between digit and parenthesis
         i = 1
@@ -43,10 +47,10 @@ class Calc(ICalc):
             )
 
             return wrapped_expression
-
         self.expression = wrap_numbers(self.expression)
 
     def __calculate(self):
+        result = None
         try:
             result = eval(self.expression)
         except SyntaxError:
@@ -55,11 +59,29 @@ class Calc(ICalc):
             return "Zero Division"
         except ValueError:
             return "Error while calculating"
+        except AttributeError as e:
+            print(e)
+            return "Program bug"
 
+        except NameError:
+            return "Undefined variable or function"
+        except Exception as e:
+            print(e)
+            print(self.expression)
         if isinstance(result, float) and result.as_integer_ratio()[1] == 1:
             result = result.as_integer_ratio()[0]
         return result
 
+    def help(self):
+        return """
+        This calculator as input gets 
+        math expression that can contain
+        only numbers and functions.
+        
+        Calculator designed to support
+        all python-math module functions 
+        """
 
-a = Calc()
-print(a.input("(134.312)+(123)56"))
+if __name__ == '__main__':
+    a = Calc()
+    print(a.input("(134.312)+(123)56"))

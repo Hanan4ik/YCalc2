@@ -1,23 +1,37 @@
-from math import *
-# Sum of float numbers to avoid strange results
-# (Add description)
+import math
+
 
 class Number(float):
 
     def __init__(self, value):
         self.value = value
 
+    def __index__(self):
+        return int(self.value)
+
     def __add__(self, other):
-        return add(self.value, other.value)
+        if isinstance(other, Number):
+            return add(self.value, other.value)
+        if isinstance(other, float) or isinstance(other, int):
+            return add(self.value, other)
 
     def __sub__(self, other):
-        return add(self.value, -other.value)
+        if isinstance(other, Number):
+            return add(self.value, -other.value)
+        if isinstance(other, float) or isinstance(other, int):
+            return add(self.value, -other)
 
     def __mul__(self, other):
-        return mul(self.value, other.value)
+        if isinstance(other, Number):
+            return mul(self.value, other.value)
+        if isinstance(other, float) or isinstance(other, int):
+            return mul(self.value, other)
 
     def __truediv__(self, other):
-        return divide(self.value, other.value)
+        if isinstance(other, Number):
+            return divide(self.value, other.value)
+        if isinstance(other, float) or isinstance(other, int):
+            return divide(self.value, other)
 
 
 def add(x, y):
@@ -53,7 +67,7 @@ def mul(x: float, y: float):
         return Number((x * y)//mul_)
     return Number((x * y) / mul_)
 
-def divide(x, y):
+def divide(x, y):  # TODO
     return x / y
 
 if __name__ == "__main__":
