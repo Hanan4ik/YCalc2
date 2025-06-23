@@ -32,15 +32,23 @@ class Calc(ICalc):
                 i += 1
         del i, len_exp
 
-        # Replace plus/minus sign into add function
+        import re
 
-        if "+" not in self.expression and "-" not in self.expression:
-            return
+        def wrap_numbers(expression):
 
-        def to_func():
-            pass
+            # Регулярное выражение для поиска чисел (целых и с плавающей точкой)
+            number_pattern = r'\b\d+\.?\d*\b'
 
+            # Заменяем все числа на Number(число)
+            wrapped_expression = re.sub(
+                number_pattern,
+                lambda match: f'Number({match.group(0)})',
+                expression
+            )
 
+            return wrapped_expression
+
+        self.expression = wrap_numbers(self.expression)
 
 
 
@@ -59,4 +67,4 @@ class Calc(ICalc):
 
 
 a = Calc()
-print(a.input("(132+64) - 33*64(128/5) + 3**2 + 3"))
+print(a.input("(132+64.31) - (-2) + 33*64(128/5) + 3**2 + 3 + sin(30)"))

@@ -1,5 +1,5 @@
 from math import *
-
+from decimal import Decimal
 # Sum of float numbers to avoid strange results
 # (Add description)
 def add(x, y):
@@ -35,8 +35,11 @@ def mul(x: float, y: float):
         return (x * y)//mul_
     return (x * y) / mul_
 
+def divide(x, y):
+    return x / y
+
 if __name__ == "__main__":
-    print(add(0.1, 6))
+    print(format(add(0.21233123121, 6), ".210f"))
     print(mul(1.1213, 6))
 
 
