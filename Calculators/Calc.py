@@ -1,4 +1,6 @@
 from Calculators.ICalc import ICalc
+from Functions.base_funcs import *
+import re
 
 
 class Calc(ICalc):
@@ -8,10 +10,8 @@ class Calc(ICalc):
 
     def input(self, expression):
         super().input(expression)
-
         self.__format()
-        self.__calculate()
-        return self.result
+        return self.__calculate()
 
     def __format(self) -> None:
 
@@ -32,14 +32,10 @@ class Calc(ICalc):
                 i += 1
         del i, len_exp
 
-        import re
-
         def wrap_numbers(expression):
 
-            # Регулярное выражение для поиска чисел (целых и с плавающей точкой)
             number_pattern = r'\b\d+\.?\d*\b'
 
-            # Заменяем все числа на Number(число)
             wrapped_expression = re.sub(
                 number_pattern,
                 lambda match: f'Number({match.group(0)})',
@@ -50,21 +46,20 @@ class Calc(ICalc):
 
         self.expression = wrap_numbers(self.expression)
 
-
-
     def __calculate(self):
         try:
-            self.result = eval(self.expression)
+            result = eval(self.expression)
         except SyntaxError:
             return "Invalid input"
         except ZeroDivisionError:
             return "Zero Division"
-        except Exception:
+        except ValueError:
             return "Error while calculating"
 
-        if isinstance(self.result, float) and self.result.as_integer_ratio()[1] == 1:
-            self.result = self.result.as_integer_ratio()[0]
+        if isinstance(result, float) and result.as_integer_ratio()[1] == 1:
+            result = result.as_integer_ratio()[0]
+        return result
 
 
 a = Calc()
-print(a.input("(132+64.31) - (-2) + 33*64(128/5) + 3**2 + 3 + sin(30)"))
+print(a.input("(134.312)+(123)56"))

@@ -6,7 +6,6 @@ class ICalc:
     def __init__(self):
         self.calc_name = "icalc"
         self.expression = ""
-        self.result = None
 
     def input(self, expression):
         self.expression = expression
@@ -21,8 +20,3 @@ class ICalc:
 
     def help(self):
         raise NotImplementedError
-
-class Calc(ICalc):
-    pass
-
-Calc()
